@@ -13,7 +13,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",  # Permitir solicitudes desde tu entorno de desarrollo
     "https://api-backend-production-912a.up.railway.app",  # Puedes agregar otros dominios permitidos aquí
-    "https://ssd-project-rose.vercel.app/dashboard"
+    "https://ssd-project-rose.vercel.app"
 ]
 
 app.add_middleware(
