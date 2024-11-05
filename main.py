@@ -1,9 +1,27 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 import pandas as pd
 import joblib
 import os
+
+# Inicializar FastAPI
+app = FastAPI()
+
+# Configuración de CORS
+origins = [
+    "http://localhost:3000",  # Permitir solicitudes desde tu entorno de desarrollo
+    "https://api-backend-production-912a.up.railway.app",  # Puedes agregar otros dominios permitidos aquí
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Permitir los dominios especificados
+    allow_credentials=True,
+    allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
+    allow_headers=["*"],  # Permitir todos los headers
+)
 
 # Definir el esquema de entrada con listas y el nombre del modelo
 class PredictionInput(BaseModel):
@@ -13,8 +31,7 @@ class PredictionInput(BaseModel):
     years: List[int]
     forecast_model: str  # Nombre del modelo proporcionado por el front-end
 
-# Inicializar FastAPI
-app = FastAPI()
+
 
 # Cargar el modelo (función general para todos los modelos)
 def load_model(filename):
